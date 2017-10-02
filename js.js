@@ -93,6 +93,7 @@ input.addEventListener("keyup",e=>{
     }
 });
 
+addEventListener("contextmenu",e=>e.preventDefault())
 
 function nextQuestion(){
 	if (index < 9){
