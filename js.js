@@ -9,8 +9,11 @@ var input = $("input");
 var database, scorePodmazvane = 0, scoreOtkloni = 0, scorePriznanie = 0, happiness = 50, currentQuestion, index = 0; 
 
 window.onload = function(){
+       input.disabled = true;
 	myConsole.innerHTML+=`Професор Скръц: ... и понеже днеска сме 1ри Окромви за това, днес ще изпитвам <span class="red">номер 10</span>.<br>`
-	myConsole.innerHTML+=`Професор Скръц: Хайде ставай!<br>`
+       myConsole.innerHTML+=`Професор Скръц: Хайде ставай!<br><br>`
+	myConsole.innerHTML+=`Сега ще ти задам 10 въпроса, и ти ще отговаряш с 
+       <span class="red">а</span>,<span class="red">б</span>,<span class="red">в</span> или <span class="red">г</span><br><br>`
 	updateEmotion();
 	fetch("Question_database.json")
 	.then(e => e.json())
@@ -22,6 +25,8 @@ window.onload = function(){
 };
 
 function askQuesiton(){
+       input.disabled = false;
+       input.focus();
 	currentQuestion = database.questions[index];
 	setQuery(currentQuestion.questionText,[currentQuestion.podmazvane,currentQuestion.naluchkai,currentQuestion.otkloni, currentQuestion.priznanie]);
 	myConsole.scrollTop = myConsole.scrollHeight;
@@ -33,55 +38,55 @@ input.addEventListener("keyup",e=>{
 	if (e.keyCode == 13) {
 	   	e.preventDefault();
        	var value = input.value;
-       	if (value == 'а'){
+       	if (value == 'а' || value == 'a' || value == 'А'){
        		scorePodmazvane +=10;
        		myConsole.innerHTML+= `Ти: ${currentQuestion.podmazvane}<br>`;
-       		input.disable = true;
+       		input.disabled = true;
        		myConsole.scrollTop = myConsole.scrollHeight;
        		setTimeout(()=>{
-       			input.disable = false;
+       			// input.disabled = false;
 
        			myConsole.innerHTML+= `<br>Професор Скръц: ${currentQuestion.podmazvaneOtgovor}<br>`;
        			myConsole.scrollTop = myConsole.scrollHeight;
        			nextQuestion();
        		},2000);
        	}
-       	if (value == 'б'){
+       	if (value == 'б' || value == 'b' || value == 'Б'){
        		if (currentQuestion.naluchkaiBool == false){
-       			happiness -= 10;
+       			happiness -= 20;
        		}
        		else{
-       			happiness += 20;
+       			happiness += 10;
        		}
        		myConsole.innerHTML+= `Ти: ${currentQuestion.naluchkai}<br>`;
-       		input.disable = true;
+       		input.disabled = true;
        		myConsole.scrollTop = myConsole.scrollHeight;
        		setTimeout(()=>{
-       			input.disable = false;
+       			// input.disabled = false;
        			myConsole.innerHTML+= `<br>Професор Скръц: ${currentQuestion.naluchkaiOtgovor}<br>`;
        			myConsole.scrollTop = myConsole.scrollHeight;
        			nextQuestion();
        		},2000);
        	}
-       	if (value == 'в'){
+       	if (value == 'в' || value == 'v' || value == 'В'){
        		scoreOtkloni +=10;
        		myConsole.innerHTML+= `Ти: ${currentQuestion.otkloni}<br>`;
-       		input.disable = true;
+       		input.disabled = true;
        		myConsole.scrollTop = myConsole.scrollHeight;
        		setTimeout(()=>{
-       			input.disable = false;
+       			// input.disabled = false;
        			myConsole.innerHTML+= `<br>Професор Скръц: ${currentQuestion.otkloniOtgovor}<br>`;
        			myConsole.scrollTop = myConsole.scrollHeight;
        			nextQuestion();
        		},2000);
        	}
-       	if (value == 'г'){
+       	if (value == 'г' || value == 'g' || value == 'Г'){
        		scorePriznanie +=10;
        		myConsole.innerHTML+= `Ти: ${currentQuestion.priznanie}<br>`;
-       		input.disable = true;
+       		input.disabled = true;
        		myConsole.scrollTop = myConsole.scrollHeight;
        		setTimeout(()=>{
-       			input.disable = false;
+       			// input.disabled = false;
        			myConsole.innerHTML+= `<br>Професор Скръц: ${currentQuestion.priznanieOtgovor}<br>`;
        			myConsole.scrollTop = myConsole.scrollHeight;
        			nextQuestion();
@@ -103,24 +108,24 @@ function nextQuestion(){
 
 	} 
 	else{
-		var overall = happiness + (scorePriznanie<=30 ? scorePriznanie : 20-scorePriznanie) + (scoreOtkloni<=30 ? scoreOtkloni : 20-scoreOtkloni) +(scorePodmazvane<=30 ? scorePodmazvane : 20-scorePodmazvane)
+		var overall = happiness + (scorePriznanie<=20 ? scorePriznanie : 20-scorePriznanie) + (scoreOtkloni<=30 ? scoreOtkloni : 20-scoreOtkloni) +(scorePodmazvane<=30 ? scorePodmazvane : 10-scorePodmazvane)
 		if (overall> 0 && overall <= 30 ){
-			myConsole.innerHTML+="<br>Професор Скръц: OK, Виждам че се имаш нещо в главата, но това не са знания. <span class='red'>Получаваш оценка 3<br> GAME OVER</span>"
+			myConsole.innerHTML+="<br>Професор Скръц: Хич, не си учил, но поне си идвал на лекции и си слушал. Днес минаваш, но ако продължаваш, другият път няма да минеш. <span class='red'>Получаваш оценка 3<br> GAME OVER</span>"
 		}
 		if (overall <= 0){
-			myConsole.innerHTML+="<br>Професор Скръц: Подиграваш се с мен. <span class='red'>ДВОЙКА!<br> GAME OVER</span>"
+			myConsole.innerHTML+="<br>Професор Скръц: Подиграваш се с мен. Ще се видим пак следващата сесия. <span class='red'>ДВОЙКА!<br> GAME OVER</span>"
 
 		}
 		if (overall> 30 && overall <= 70){
-			myConsole.innerHTML+="<br>Професор Скръц: Стегни се! <span class='red'>Получаваш оценка 4<br> GAME OVER</span>"
+			myConsole.innerHTML+="<br>Професор Скръц: Внимавал си в час, но толкова. <span class='red'>Получаваш оценка 4<br> GAME OVER</span>"
 
 		}
 		if (overall> 70 && overall <= 100){
-			myConsole.innerHTML+="<br>Професор Скръц: Виждам че си се трудил, но има на къде да се развиваш. <span class='red'>Получаваш оценка 5<br> GAME OVER</span>"
+			myConsole.innerHTML+="<br>Професор Скръц: Виждам че си се трудил, но имаш още много да учиш. Ще ти дам малко отгоре за да те насърча. <span class='red'>Получаваш оценка 5<br> GAME OVER</span>"
 
 		}
 		if (overall> 100){
-			myConsole.innerHTML+="<br>Професор Скръц: Браво! Просто невероятно! <span class='red'>Чиста 6ца!<br> GAME OVER</span>"
+			myConsole.innerHTML+="<br>Професор Скръц: Учиш, макар, да не знаеш теорията, имаш разбирането. <span class='red'>Днес ще ти пиша 6ца<br> ама другият път ще ти взема. <br> GAME OVER</span>"
 
 		}
 		myConsole.scrollTop = myConsole.scrollHeight;
