@@ -6,7 +6,9 @@ window.onload = function(){
 	myConsole.innerHTML+=`Професор Скръц: ... и понеже днеска сме 1ри Окромви за това, днес ще изпитвам <span class="red">номер 10</span>.<br>`
        myConsole.innerHTML+=`Професор Скръц: Хайде ставай!<br><br>`
 	myConsole.innerHTML+=`Сега ще ти задам 10 въпроса, и ти ще отговаряш с 
-       <span class="red">а</span>,<span class="red">б</span>,<span class="red">в</span> или <span class="red">г</span><br><br>`
+       <span class="red">а</span>,<span class="red">б</span>,<span class="red">в</span> или <span class="red">г</span> и 
+       накрая ще ти пиша оценка<br><br>`
+       myConsole.innerHTML+=`Професор Скръц: Не се опитвай да преписваш, като гледаш сорс кода<br><br>`
 	updateEmotion();
 	fetch("Question_database.json")
 	.then(e => e.json())
@@ -25,14 +27,13 @@ function askQuesiton(){
 	myConsole.scrollTop = myConsole.scrollHeight;
 }
 window.addEventListener("keydown",e=>{
-       console.log(e);
        if (e.keyCode == 74 && e.shiftKey == true && e.ctrlKey == true)cheat(e);
        if (e.keyCode == 85 && e.ctrlKey == true)cheat(e);
        if (e.keyCode == 123)cheat(e);
 })
 function cheat(){
-       console.log("ХВАНАХ ТЕ! ПРЕПИСВАЧ!");
-       myConsole.innerHTML+= `<br><br>Професор Скръц: ХВАНАХ ТЕ! ПРЕПИСВАЧ!<br>`;
+       console.log("Achievement unlocked: Cheater");
+       myConsole.innerHTML+= `<br><br>Професор Скръц: ХВАНАХ ТЕ! Казах ти да не преписваш!<br>`;
        index = 10;
        happiness = 0;
        nextQuestion();
