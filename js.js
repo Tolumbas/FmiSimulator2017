@@ -1,13 +1,6 @@
-
 var $ = a => document.getElementById(a)
-
-var myConsole = $("console");
-var myProffesor = $("proffesor");
-var myAnswer = $("answer");
-var input = $("input");
-
+var myConsole = $("console"), myProffesor = $("proffesor"), myAnswer = $("answer"), input = $("input");
 var database, scorePodmazvane = 0, scoreOtkloni = 0, scorePriznanie = 0, happiness = 50, currentQuestion, index = 0; 
-
 window.onload = function(){
        input.disabled = true;
 	myConsole.innerHTML+=`Професор Скръц: ... и понеже днеска сме 1ри Окромви за това, днес ще изпитвам <span class="red">номер 10</span>.<br>`
@@ -23,7 +16,6 @@ window.onload = function(){
 		setTimeout(askQuesiton,3000);
 	})
 };
-
 function askQuesiton(){
        if (index == 10) return;
        input.disabled = false;
@@ -32,15 +24,12 @@ function askQuesiton(){
 	setQuery(currentQuestion.questionText,[currentQuestion.podmazvane,currentQuestion.naluchkai,currentQuestion.otkloni, currentQuestion.priznanie]);
 	myConsole.scrollTop = myConsole.scrollHeight;
 }
-
-
 window.addEventListener("keydown",e=>{
        console.log(e);
        if (e.keyCode == 74 && e.shiftKey == true && e.ctrlKey == true)cheat(e);
        if (e.keyCode == 85 && e.ctrlKey == true)cheat(e);
        if (e.keyCode == 123)cheat(e);
 })
-
 function cheat(){
        console.log("ХВАНАХ ТЕ! ПРЕПИСВАЧ!");
        myConsole.innerHTML+= `<br><br>Професор Скръц: ХВАНАХ ТЕ! ПРЕПИСВАЧ!<br>`;
@@ -48,7 +37,6 @@ function cheat(){
        happiness = 0;
        nextQuestion();
 }
-
 input.addEventListener("keyup",e=>{
 	if (e.keyCode == 13) {
 	   	e.preventDefault();
@@ -59,25 +47,20 @@ input.addEventListener("keyup",e=>{
        		input.disabled = true;
        		myConsole.scrollTop = myConsole.scrollHeight;
        		setTimeout(()=>{
-       			// input.disabled = false;
-
        			myConsole.innerHTML+= `<br>Професор Скръц: ${currentQuestion.podmazvaneOtgovor}<br>`;
        			myConsole.scrollTop = myConsole.scrollHeight;
        			nextQuestion();
        		},2000);
        	}
        	if (value == 'б' || value == 'b' || value == 'Б'){
-       		if (currentQuestion.naluchkaiBool == false){
-       			happiness -= 20;
-       		}
-       		else{
-       			happiness += 10;
-       		}
+       		if (currentQuestion.naluchkaiBool == false)
+       		     happiness -= 20;
+       		else
+       		     happiness += 10;
        		myConsole.innerHTML+= `Ти: ${currentQuestion.naluchkai}<br>`;
        		input.disabled = true;
        		myConsole.scrollTop = myConsole.scrollHeight;
        		setTimeout(()=>{
-       			// input.disabled = false;
        			myConsole.innerHTML+= `<br>Професор Скръц: ${currentQuestion.naluchkaiOtgovor}<br>`;
        			myConsole.scrollTop = myConsole.scrollHeight;
        			nextQuestion();
@@ -89,7 +72,6 @@ input.addEventListener("keyup",e=>{
        		input.disabled = true;
        		myConsole.scrollTop = myConsole.scrollHeight;
        		setTimeout(()=>{
-       			// input.disabled = false;
        			myConsole.innerHTML+= `<br>Професор Скръц: ${currentQuestion.otkloniOtgovor}<br>`;
        			myConsole.scrollTop = myConsole.scrollHeight;
        			nextQuestion();
@@ -101,26 +83,21 @@ input.addEventListener("keyup",e=>{
        		input.disabled = true;
        		myConsole.scrollTop = myConsole.scrollHeight;
        		setTimeout(()=>{
-       			// input.disabled = false;
        			myConsole.innerHTML+= `<br>Професор Скръц: ${currentQuestion.priznanieOtgovor}<br>`;
        			myConsole.scrollTop = myConsole.scrollHeight;
        			nextQuestion();
        		},2000);
        	}
        	updateEmotion();
-       	
        	input.value = "";
     }
 });
-
 addEventListener("contextmenu",e=>e.preventDefault())
-
 function nextQuestion(){
 	if (index < 9){
 		index ++;
 		myConsole.innerHTML+="<br><br>"
 		setTimeout(askQuesiton,3000);	
-
 	} 
 	else{
 		var overall = happiness + (scorePriznanie<=20 ? scorePriznanie : 20-scorePriznanie) + (scoreOtkloni<=30 ? scoreOtkloni : 20-scoreOtkloni) +(scorePodmazvane<=30 ? scorePodmazvane : 10-scorePodmazvane)
@@ -129,36 +106,28 @@ function nextQuestion(){
 		}
 		if (overall <= 0){
 			myConsole.innerHTML+="<br>Професор Скръц: Подиграваш се с мен. Ще се видим пак следващата сесия. <span class='red'>ДВОЙКА!<br> GAME OVER</span>"
-
 		}
 		if (overall> 30 && overall <= 70){
 			myConsole.innerHTML+="<br>Професор Скръц: Внимавал си в час, но толкова. <span class='red'>Получаваш оценка 4<br> GAME OVER</span>"
-
 		}
 		if (overall> 70 && overall <= 100){
 			myConsole.innerHTML+="<br>Професор Скръц: Виждам че си се трудил, но имаш още много да учиш. Ще ти дам малко отгоре за да те насърча. <span class='red'>Получаваш оценка 5<br> GAME OVER</span>"
-
 		}
 		if (overall> 100){
 			myConsole.innerHTML+="<br>Професор Скръц: Учиш, макар, да не знаеш теорията, имаш разбирането. <span class='red'>Днес ще ти пиша 6ца<br> ама другият път ще ти взема. <br> GAME OVER</span>"
-
 		}
 		myConsole.scrollTop = myConsole.scrollHeight;
               input.disabled = true;
 	}
 }
-
-
-
 function setQuery(question, answers){
-myConsole.innerHTML += 
-`Професор Скръц: "${question}"<br>
-<span class="red">A</span>) ${answers[0]}<br>
-<span class="red">Б</span>) ${answers[1]}<br>
-<span class="red">В</span>) ${answers[2]}<br>
-<span class="red">Г</span>) ${answers[3]}<br><br>
-`;
-
+       myConsole.innerHTML += 
+       `Професор Скръц: "${question}"<br>
+       <span class="red">A</span>) ${answers[0]}<br>
+       <span class="red">Б</span>) ${answers[1]}<br>
+       <span class="red">В</span>) ${answers[2]}<br>
+       <span class="red">Г</span>) ${answers[3]}<br><br>
+       `;
 }
 function updateEmotion(){
 	var overall = happiness + (scorePriznanie<=30 ? scorePriznanie : 20-scorePriznanie) + (scoreOtkloni<=30 ? scoreOtkloni : 20-scoreOtkloni) +(scorePodmazvane<=30 ? scorePodmazvane : 20-scorePodmazvane)
