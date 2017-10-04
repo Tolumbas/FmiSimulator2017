@@ -25,6 +25,7 @@ window.onload = function(){
 };
 
 function askQuesiton(){
+       if (index == 10) return;
        input.disabled = false;
        input.focus();
 	currentQuestion = database.questions[index];
@@ -33,6 +34,20 @@ function askQuesiton(){
 }
 
 
+window.addEventListener("keydown",e=>{
+       console.log(e);
+       if (e.keyCode == 74 && e.shiftKey == true && e.ctrlKey == true)cheat(e);
+       if (e.keyCode == 85 && e.ctrlKey == true)cheat(e);
+       if (e.keyCode == 123)cheat(e);
+})
+
+function cheat(){
+       console.log("ХВАНАХ ТЕ! ПРЕПИСВАЧ!");
+       myConsole.innerHTML+= `<br><br>Професор Скръц: ХВАНАХ ТЕ! ПРЕПИСВАЧ!<br>`;
+       index = 10;
+       happiness = 0;
+       nextQuestion();
+}
 
 input.addEventListener("keyup",e=>{
 	if (e.keyCode == 13) {
@@ -129,6 +144,7 @@ function nextQuestion(){
 
 		}
 		myConsole.scrollTop = myConsole.scrollHeight;
+              input.disabled = true;
 	}
 }
 
